@@ -1,0 +1,12 @@
+MAILDIR=$HOME/Mail
+DEFAULT=inbox
+LOGFILE=$HOME/.procmail.log
+VERBOSE=on
+
+# filter mail through bogofilter
+:0fw
+| /usr/bin/bogofilter -e -u -p
+
+:0:
+* ^X-Bogosity: Spam, tests=bogofilter
+yyy-spam
