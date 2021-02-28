@@ -1,0 +1,11 @@
+# Tag name          ;  color
+NOAA                ; #c0c0c0
+
+# Frequency ; Name                     ; Modulation          ;  Bandwidth; Tags
+   162400000; 162.400                  ; Narrow FM           ;      10000; NOAA
+   162425000; 162.425                  ; Narrow FM           ;      10000; NOAA
+   162450000; 162.450                  ; Narrow FM           ;      10000; NOAA
+   162475000; 162.475                  ; Narrow FM           ;      10000; NOAA
+   162500000; 162.500                  ; Narrow FM           ;      10000; NOAA
+   162525000; 162.525                  ; Narrow FM           ;      10000; NOAA
+   162550000; 162.550                  ; Narrow FM           ;      10000; NOAA
