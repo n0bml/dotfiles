@@ -1,7 +1,11 @@
 # Tag name          ;  color
+Broadcast FM        ; #c0c0c0
+HAMR                ; #c0c0c0
 NOAA                ; #c0c0c0
 
 # Frequency ; Name                     ; Modulation          ;  Bandwidth; Tags
+   107700000; KKND                     ; WFM (stereo)        ;     160000; Broadcast FM
+   144390000; APRS                     ; Narrow FM           ;      10000; HAMR
    162400000; 162.400                  ; Narrow FM           ;      10000; NOAA
    162425000; 162.425                  ; Narrow FM           ;      10000; NOAA
    162450000; 162.450                  ; Narrow FM           ;      10000; NOAA
