@@ -1,15 +1,15 @@
 # Tag name          ;  color
 Broadcast FM        ; #c0c0c0
-HAMR                ; #c0c0c0
-NOAA                ; #c0c0c0
+APT                 ; #c0c0c0
+LRPT                ; #c0c0c0
+SSTV                ; #c0c0c0
 
 # Frequency ; Name                     ; Modulation          ;  Bandwidth; Tags
    107700000; KKND                     ; WFM (stereo)        ;     160000; Broadcast FM
-   144390000; APRS                     ; Narrow FM           ;      10000; HAMR
-   162400000; 162.400                  ; Narrow FM           ;      10000; NOAA
-   162425000; 162.425                  ; Narrow FM           ;      10000; NOAA
-   162450000; 162.450                  ; Narrow FM           ;      10000; NOAA
-   162475000; 162.475                  ; Narrow FM           ;      10000; NOAA
-   162500000; 162.500                  ; Narrow FM           ;      10000; NOAA
-   162525000; 162.525                  ; Narrow FM           ;      10000; NOAA
-   162550000; 162.550                  ; Narrow FM           ;      10000; NOAA
+   137100000; NOAA 19                  ; WFM (mono)          ;      40000; APT
+   137620000; NOAA 15                  ; WFM (mono)          ;      40000; APT
+   137912500; NOAA 18                  ; WFM (mono)          ;      40000; APT
+   137100000; METEOR M2 2              ; WFM (mono)          ;     110000; LRPT
+   144390000; APRS                     ; Narrow FM           ;      10000; APRS
+   145825000; ISS APRS                 ; Narrow FM           ;      10000; APRS
+   145800000; ISS SSTV                 ; Narrow FM           ;      10000; SSTV

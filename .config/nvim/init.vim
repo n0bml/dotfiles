@@ -1,101 +1,59 @@
+let g:mapleader = ','
+
 set encoding=utf-8
+set fileencoding=utf-8
 
-let g:mapleader=','
+syntax enable
+set hidden
+"set nowrap
+set pumheight=10
+set ruler
+set cmdheight=2
+set iskeyword+=-
+set mouse=a
+set splitbelow
+set splitright
+set conceallevel=0
 
-" we like the deep blues of Gotham
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab
+set smartindent
+
+set laststatus=0
+set number
+set relativenumber
+"set showtabline=2
+set noshowmode
+set nobackup
+set nowritebackup
+set updatetime=300
+set timeoutlen=500
+set clipboard=unnamedplus
+"set audochdir
+
+" automatically souce init.vim when saving this file
+au! BufWritePost $MYVIMRC source %
+
+" you can't stop me
+"cmap w!! w !sudo tee %
+
+set t_Co=256
+set cursorline
+set background=dark
 colorscheme gotham256
 
+" show matches and highlight searches
 set ignorecase
 set smartcase
-
-" show matches and highlight searches
 set showmatch
 set hlsearch
-nnoremap <leader><space> :nohlsearch<cr>
 
-" save a keypress for ex commands
-nnoremap ; :
-
-" save us from VIM's default regex format
+" save us from NeoVIM's default regex format
 nnoremap / /\v
 vnoremap / /\v
 
-" allow viewing of whitespace characters
+" settings for viewing whitespace characters
 set showbreak=\\ " one space after the backslash
 set listchars=tab:..,trail:_,nbsp:~,extends:>,precedes:<
-nmap <leader>l :set list!<cr>
-
-" delete trailing whitespace
-nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
-
-" wrap paragraphs
-nnoremap <leader>q gqip
-
-" use system clipboard when cutting and pasting
-set clipboard=unnamed
-set clipboard+=unnamedplus
-"nnoremap <leader>y "+yy
-
-" split below and to the right
-set splitbelow
-set splitright
-
-" split navigation
-nnoremap <C-j> <C-W><C-J>
-nnoremap <C-k> <C-W><C-K>
-nnoremap <C-l> <C-W><C-L>
-nnoremap <C-h> <C-W><C-H>
-
-" split window vertically and switch to new window
-nnoremap <leader>w <C-w>v<C-w>l
-
-" toggle between absolute line numbers and relative line numbers
-set number
-set relativenumber
-function! NumberToggle()
-    if(&relativenumber == 1)
-        set norelativenumber
-        set number
-    else
-        set number
-        set relativenumber
-    endif
-endfunc
-nnoremap <leader>n :call NumberToggle()<cr>
-
-" code folding
-set foldmethod=indent
-set foldlevel=99
-"set foldnestmax=2
-set foldenable
-nnoremap <space> za
-
-au BufWritePost *.c,*.h,*.cpp,*.hpp call ClangFormatFile()
-
-" specify the python interpreter to use
-let g:python3_host_prog = '/usr/bin/python3'
-
-" don't find precompiled Python (*.pyc) files when using wildcards
-set wildignore+=*.pyc
-
-" Python formatting a la PEP8
-au BufNewFile,BufRead *.py
-	\ set tabstop=4 |
-	\ set softtabstop=4 |
-	\ set shiftwidth=4 |
-	\ set textwidth=100 |
-	\ set expandtab |
-	\ set autoindent |
-	\ set fileformat=unix
-
-au BufWritePost *.py call Flake8()
-
-au BufNewFile,BufRead *.py,*.pyw,*.c,*.h,*.cpp,*.hpp match Cursor /\s\+$/
-
-au BufNewFile,BufRead *js,*.html,*.css
-	\ set tabstop=2 |
-	\ set softtabstop=2 |
-	\ set shiftwidth=2 |
-	\ set expandtab
-
-au BufNewFile,BufRead *.ini set filetype=dosini

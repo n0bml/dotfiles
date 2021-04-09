@@ -36,6 +36,11 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
+# set the Free Desktop Specification environment variables, if not already set
+export XDG_DATA_HOME=${XDG_DATA_HOME:="${HOME}/.local/share"}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="${HOME}/.config"}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:="${HOME}/.cache"}
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -102,10 +107,6 @@ fi
 #alias l='ls -CF'
 
 # Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
 if [[ -f "$HOME/.bash_aliases" ]]; then
     source "$HOME/.bash_aliases"
 fi
