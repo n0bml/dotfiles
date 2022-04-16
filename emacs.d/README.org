@@ -1,0 +1,6 @@
+#+TITLE: My Custom Emacs Config
+#+AUTHOR: Brendan Leber <brendan@brendanleber.com>
+
+* My Custom Emacs Config
+
+  There are many Emacs configs but this one is mine.

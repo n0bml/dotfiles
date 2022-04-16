@@ -1,0 +1,69 @@
+let g:mapleader = ','
+
+set encoding=utf-8
+set fileencoding=utf-8
+
+syntax enable
+set hidden
+set nowrap
+set pumheight=10
+set ruler
+set iskeyword+=-
+set mouse=a
+set splitbelow
+set splitright
+set conceallevel=0
+set foldlevel=99
+
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab
+set smartindent
+
+set number
+set relativenumber
+set nobackup
+set nowritebackup
+"set updatetime=300
+set timeoutlen=500
+set clipboard=unnamedplus
+"set audochdir
+
+" automatically souce init.vim when saving this file
+nmap <silent> ;v :next $MYVIMRC<CR>
+augroup VimReload
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
+
+" you can't stop me
+"cmap w!! w !sudo tee %
+
+set t_Co=256
+set cursorline
+set background=dark
+colorscheme gotham256
+
+" show matches and highlight searches
+set incsearch
+set ignorecase
+set smartcase
+set hlsearch
+set showmatch
+
+" save us from VIM's default regex format
+nnoremap / /\v
+vnoremap / /\v
+
+" settings for viewing whitespace characters
+set showbreak=↪\  " one space after the backslash
+"set listchars=tab:‣\ ,lead:·,trail:·,nbsp:␣,extends:»,precedes:«,eol:↲
+set listchars=tab:‣\ ,trail:·,nbsp:␣,extends:»,precedes:«,eol:↲
+
+if has('persistent_undo')
+    set undolevels=5000
+    set undodir=$HOME/.vim_undo_files
+    set undofile
+endif
+set updatecount=10

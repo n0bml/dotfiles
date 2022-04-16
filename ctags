@@ -1,0 +1,5 @@
+--recurse
+--exclude=.hg/*
+--exclude=.git/*
+--python-kinds=-i
+--tag-relative=yes
