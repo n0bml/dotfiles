@@ -1,7 +1,8 @@
+[gpg]
+	format = ssh
 [user]
 	name = Brendan Leber
 	email = n0bml@brendanleber.com
-
 [alias]
 	st = status
 	ci = commit
@@ -12,30 +13,25 @@
 	tags = tag --list
 	branches = branch --all
 	remotes = remote --verbose
-	stashed = stash list --pretty=format:'%gd: %Cred%h%Creset %Cgreen[%ar]%Creset %s'
+	stashed = stash list --pretty=format:'%gd: %C(red)%h%C(reset) %C(green)[%ar]%C(reset) %s'
 	last = log --max-count=1 HEAD
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
-	signed = log --pretty=format:\"%h %G? %aN  %s\"
-
+	lg = log --color --graph --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cr)%C(reset) %C(bold blue)<%an>%C(reset)' --abbrev-commit
+	ls = log --pretty=format:'%C(yellow)%h%C(reset)%C(red)%d%C(reset) %s %C(blue)[%cn]%C(reset)' --decorate
+	signed = log --pretty=format:'%h %G? %aN  %s'
 [core]
-	excludesfile = ~/.dotfiles/gitignore
+	excludesfile = /home/n0bml/.dotfiles/gitignore
 	autocrlf = input
-
-[init]
-	defaultBranch = master
-
 [color]
 	ui = auto
 	interactive = always
-	diff = True
-	branch = True
-
+	diff = true
+	branch = true
 [push]
 	default = simple
-
 [pull]
 	rebase = true
-
+	ff = only
 [checkout]
 	defaultRemote = origin
+[init]
+	defaultBranch = main

@@ -1,0 +1,5 @@
+#!/bin/bash 
+set -euo pipefail
+IFS=$'\n\t'
+
+rsync --recursive --human-readable --progress --times --verbose --delete --delete-before --force --exclude .recycle ~/Music/ groot@asustor.glitterhaus.net:/volume1/Public/Music/

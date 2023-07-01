@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for f in `ls *.flac`; do
+    metaflac --remove-all-tags --import-tags-from="${f%.*}.tags" "$f"
+    rm "${f%.*}.tags"
+    metaflac --dont-use-padding --remove --block-type=PADDING "$f"
+done

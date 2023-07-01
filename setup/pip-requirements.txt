@@ -1,0 +1,6 @@
+flake8
+ipython
+isort
+mercurial
+nose
+wheel

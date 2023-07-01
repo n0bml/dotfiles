@@ -20,6 +20,10 @@ HISTFILESIZE=2000
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
 # set the Free Desktop Specification environment variables, if not already set
 export XDG_DATA_HOME=${XDG_DATA_HOME:="${HOME}/.local/share"}
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="${HOME}/.config"}
@@ -39,12 +43,6 @@ if [[ -z "${TMUX}" ]]; then
     export TERM=xterm-256color
 fi
 
-# where the hell am I? (ISO 6709 format)
-# TODO write program to update when GPS device is connected
-export LOCATION=+47.305464-122.215806/
-export LOCATION_NAME="Auburn, WA"
-export LOCATION_GRID="CN87vh"
-
 # include some useful bash functions
 BASH_FILES="${HOME}/.dotfiles/bash/*.bash"
 for F in $BASH_FILES; do
@@ -63,8 +61,8 @@ if [[ -d "${HOME}/.pyenv" ]]; then
 fi
 
 # add startup for interactive Python REPLs.
-if [[ -f "${HOME}/.local/bin/startup.py" ]]; then
-    export PYTHONSTARTUP="${HOME}/.local/bin/startup.py"
+if [[ -f "${HOME}/.dotfiles/startup.py" ]]; then
+    export PYTHONSTARTUP="${HOME}/.dotfiles/startup.py"
 fi
 
 # initialize ssh and add my keys
@@ -88,9 +86,33 @@ else
     start_ssh_agent;
 fi
 
+# add git bash prompt, if it exists
+if [[ -d "${HOME}/.bash-git-prompt" ]]; then
+    export GIT_PROMPT_ONLY_IN_REPO=1
+    export GIT_PROMPT_END_USER=" \n$WHITE\u@\h$ResetColor \$ "
+    export GIT_PROMPT_END_ROOT=" \n$WHITE\u@\h$ResetColor # "
+    source "${HOME}/.bash-git-prompt/gitprompt.sh"
+fi
+
+export PGHOST="asustor.glitterhaus.net"
+
+export VIMCONFIG="${HOME}/.vim"
+export VIMDATA="${HOME}/.vim"
+
+# where the hell am I? (ISO 6709 format)
+# TODO write program to update when GPS device is connected
+export LOCATION=+47.305464-122.215806/
+export LOCATION_NAME="Auburn, WA"
+export LOCATION_GRID="CN87vh"
+
 # read a .local file if it exists
 if [[ -f "${HOME}/.bashrc.local" ]]; then
     source "${HOME}/.bashrc.local"
+fi
+
+if [[ -f "${HOME}/.local/share/games/fortunes/n0bml-fortunes" ]]; then
+    echo " "
+    fortune ~/.local/share/games/fortunes/n0bml-fortunes
 fi
 
 export N0BML_BASHRC=1

@@ -115,6 +115,22 @@ endfunction
 
 let s:popup_window = 0
 
+" #get_hunk_stats {{{1
+function! sy#util#get_hunk_stats() abort
+  execute sy#util#return_if_no_changes()
+
+  let curline = line('.')
+  let total_hunks = len(b:sy.hunks)
+
+  for i in range(total_hunks)
+    if b:sy.hunks[i].start <= curline && b:sy.hunks[i].end >= curline
+      return { 'total_hunks': total_hunks, 'current_hunk': i + 1 }
+    endif
+  endfor
+
+  return {}
+endfunction
+
 " #popup_close {{{1
 function! sy#util#popup_close() abort
   if s:popup_window
@@ -161,7 +177,7 @@ function! sy#util#popup_create(hunkdiff) abort
     call nvim_win_set_option(s:popup_window, 'number', v:false)
     call nvim_win_set_option(s:popup_window, 'relativenumber', v:false)
     call nvim_win_set_option(s:popup_window, 'wrap', v:true)
-    autocmd CursorMoved * ++once call sy#util#popup_close()
+    autocmd CursorMoved <buffer> ++once call sy#util#popup_close()
   elseif exists('*popup_create')
     let s:popup_window = popup_create(map(a:hunkdiff, 'v:val[0].padding.v:val[1:]'), {
           \ 'line': 'cursor+1',
@@ -177,6 +193,27 @@ function! sy#util#popup_create(hunkdiff) abort
   endif
 
   return 1
+endfunction
+
+" #numhl {{{1
+try
+  sign define SyTest numhl=Number
+  let s:use_numhl = 1
+  sign undefine SyTest
+catch
+  let s:use_numhl = 0
+endtry
+
+function! sy#util#numhl(hlgroup) abort
+  if !s:use_numhl
+    return ''
+  endif
+
+  if get(g:, 'signify_number_highlight')
+    return printf('numhl=%s', a:hlgroup)
+  else
+    return 'numhl='
+  endif
 endfunction
 
 " s:offset {{{1

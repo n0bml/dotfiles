@@ -43,7 +43,6 @@ augroup END
 set t_Co=256
 set cursorline
 set background=dark
-colorscheme gotham256
 
 " show matches and highlight searches
 set incsearch
@@ -58,8 +57,7 @@ vnoremap / /\v
 
 " settings for viewing whitespace characters
 set showbreak=↪\  " one space after the backslash
-"set listchars=tab:‣\ ,lead:·,trail:·,nbsp:␣,extends:»,precedes:«,eol:↲
-set listchars=tab:‣\ ,trail:·,nbsp:␣,extends:»,precedes:«,eol:↲
+set listchars=tab:‣\ ,lead:·,trail:·,nbsp:␣,extends:»,precedes:«,eol:↲
 
 if has('persistent_undo')
     set undolevels=5000

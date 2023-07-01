@@ -1,0 +1,91 @@
+auto_view text/html
+alternative_order text/plain text/enriched text/html
+set spoolfile = ~/Mail/inbox
+
+# Paths ---------------------------------------------------------------------
+set folder           = ~/Mail                 # mailbox location
+#set header_cache     = ~/.mutt/cache/headers  # where to store headers
+#set message_cachedir = ~/.mutt/cache/bodies   # where to store bodies
+#set certificate_file = ~/.mutt/certificates   # where to store certs
+set mailcap_path     = ~/.mailcap        # entries for file_types
+#set tmpdir           = ~/.mutt/temp           # where to keep temp files
+#set signature        = ~/.signature      # my signature file
+set signature = "fortune ~/.local/share/games/fortunes/bml-favorite-quotes|"
+set mask = "!^\\.[^.]"
+set record = "+sent"
+set postponed = "+drafts"
+mailboxes `echo -n "+ "; find ~/Mail/ -maxdepth 1 -type f -name "*" -printf "+'%f' "`
+
+macro index c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+macro pager c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+
+macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+macro pager C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+
+macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+macro pager M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+
+macro index,pager A "<create-alias>" "create an alias from a message sender"
+macro index a ":set confirmappend=no delete=yes\n<save-message>+saved<enter>" "archive message to Saved folder"
+macro pager a ":set confirmappend=no delete=yes\n<save-message>+saved<enter>" "archive message to Saved folder"
+
+#folder-hook . `rm -f ~/.mutt/temp/*`
+
+# Basic Options -------------------------------------------------------------
+set wait_key = no
+set mbox_type = mbox
+
+# Compose View Options ------------------------------------------------------
+set realname = "Brendan Leber"
+set envelope_from = yes
+set sig_dashes
+set edit_headers
+set fast_reply
+set askcc
+set fcc_attach
+unset mime_forward
+set forward_decode
+set attribution = "On %d, %n wrote:"
+set reply_to
+set reverse_name
+set include
+set forward_quote
+set editor = "editor"
+set from = "brendan@brendanleber.com"
+set sendmail = "msmtp -a brendan"
+set sendmail_wait = 0
+set use_from = yes
+
+# email aliases
+set alias_file = ~/.mutt/aliases
+set sort_alias = alias
+set reverse_alias = yes
+source $alias_file
+
+# GNU Terry Pratchett
+my_hdr X-Clacks-Overhead: GNU Terry Pratchett
+
+# - Pager Options ----------
+#ignore *
+#unignore Date From To Reply-To Cc Subject X-Bogosity
+#hdr_order From: Date: To: Cc: Subject:
+ignore X-Mailer
+unignore X-Bogosity Reply-To
+
+# options and support for GnuPG
+set pgp_autoencrypt = no
+set pgp_verify_sig = yes
+
+unset crypt_autosign
+unset crypt_autoencrypt
+set crypt_replysign = no
+set crypt_replyencrypt = no
+set crypt_replysignencrypted = yes
+set crypt_verify_sig = yes
+
+set pgp_verify_command = "gpg --no-verbose --batch --output - --verify %s %f"
+set pgp_import_command = "gpg --no-verbose --import -v %f"
+set pgp_export_command = "gpg --no-verbose --export --armor %r"
+set pgp_verify_key_command = "gpg --no-verbose --batch --fingerprint --check-sigs %r"
+set pgp_list_pubring_command = "gpg --no-verbose --batch --quiet --with-colons --with-fingerprint --list-keys %r"
+set pgp_list_secring_command = "gpg --no-verbose --batch --with-colons --with-fingerprint --list-secret-keys %r"

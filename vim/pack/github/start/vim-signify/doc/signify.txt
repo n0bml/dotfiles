@@ -123,6 +123,7 @@ default values, as long as no "Default:" section is given.
     |g:signify_vcs_cmds|
     |g:signify_vcs_cmds_diffmode|
     |g:signify_disable_by_default|
+    |g:signify_skip|
     |g:signify_skip_filetype|
     |g:signify_skip_filename|
     |g:signify_skip_filename_pattern|
@@ -133,7 +134,6 @@ default values, as long as no "Default:" section is given.
     |g:signify_sign_change|
     |g:signify_sign_change_delete|
     |g:signify_sign_show_count|
-    |g:signify_sign_show_text|
     |g:signify_difftool|
     |g:signify_fold_context|
     |g:signify_priority|
@@ -239,6 +239,18 @@ Disable Sy by default. You can still enable it later via:
     |signify-:SignifyEnableAll|
 
 ------------------------------------------------------------------------------
+                                                              *g:signify_skip*
+>
+    let g:signify_skip = { 'vcs': { 'allow': ['git'] } }
+    let g:signify_skip = { 'vcs': { 'deny': ['perforce'] } }
+<
+Allow only certain VCS or deny all but the specified ones. Mutually exclusive.
+
+This can be used to replace the old g:signify_vcs_list.
+
+Default: <none>
+
+------------------------------------------------------------------------------
                                                *g:signify_skip_filename_pattern*
                                                        *g:signify_skip_filename*
                                                        *g:signify_skip_filetype*
@@ -264,6 +276,14 @@ Default: <none>
 Enable line highlighting in addition to using signs by default.
 
 ------------------------------------------------------------------------------
+                                                    *g:signify_number_highlight*  >
+    let g:signify_number_highlight = 0
+<
+Enable number column highlighting in addition to using signs by default.
+
+This requires Vim 8.2.3874+ or Neovim 0.3.2+.
+
+------------------------------------------------------------------------------
                                               *g:signify_sign_add*
                                               *g:signify_sign_delete*
                                               *g:signify_sign_delete_first_line*
@@ -282,25 +302,17 @@ these.
 You can use Unicode characters, but signs must not take up more than two
 cells. Otherwise, |E239| is thrown.
 
+Examples:~
+>
+  let g:signify_sign_add    = '▊'  " U+258A LEFT THREE QUARTERS BLOCK (1 cell)
+  let g:signify_sign_change = '██' " U+2588 FULL BLOCK x2 (2 cells)
+<
 ------------------------------------------------------------------------------
                                                      *g:signify_sign_show_count*  >
     let g:signify_sign_show_count = 1
 <
 Add the number of deleted lines to |g:signify_sign_delete| (up to 99).
 Otherwise, only the usual sign text will be shown.
-
-------------------------------------------------------------------------------
-                                                      *g:signify_sign_show_text*  >
-    let g:signify_sign_show_text = 1
-<
-Don't show any text in the sign column. (Actually it will show a non-breaking
-space.)
-
-This is useful if you only want to see colors instead. If your colorscheme
-doesn't do it for you, you can set the background color of a particular sign
-yourself: |signify-colors|.
-
-If you want no sign column at all and use Vim 7.4.2201+, use 'signcolumn'.
 
 ------------------------------------------------------------------------------
                                                             *g:signify_difftool*  >
@@ -329,7 +341,7 @@ unfolded. Using |zo| (and similar |fold-commands|) on a folded line will reveal
 Default: [3, 8]
 
 ------------------------------------------------------------------------------
-                                                        *g:signify_priority*  >
+                                                            *g:signify_priority*  >
     let g:signify_priority = 5
 <
 This changes the sign priority used for signs. See |sign-priority|.
@@ -529,6 +541,17 @@ Mapping other keys:
     nmap <leader>gJ 9999<leader>gj
     nmap <leader>gK 9999<leader>gk
 <
+When you jump to a hunk, show "[Hunk 2/15]" by putting this in your vimrc:
+>
+    autocmd User SignifyHunk call s:show_current_hunk()
+
+    function! s:show_current_hunk() abort
+      let h = sy#util#get_hunk_stats()
+      if !empty(h)
+        echo printf('[Hunk %d/%d]', h.current_hunk, h.total_hunks)
+      endif
+    endfunction
+<
 ------------------------------------------------------------------------------
 Hunk text object:~
 >
@@ -569,19 +592,11 @@ Assuming you prefer |hl-DiffText| over |hl-DiffChange| for changed lines:
 >
     highlight link SignifyLineChange DiffText
 <
-Example configuration #1:~
+Example configuration:~
 >
     highlight SignifySignAdd    ctermfg=green  guifg=#00ff00 cterm=NONE gui=NONE
     highlight SignifySignDelete ctermfg=red    guifg=#ff0000 cterm=NONE gui=NONE
     highlight SignifySignChange ctermfg=yellow guifg=#ffff00 cterm=NONE gui=NONE
-<
-Example configuration #2:~
->
-    let g:signify_sign_show_text = 0
-
-    highlight SignifySignAdd                  ctermbg=green                guibg=#00ff00
-    highlight SignifySignDelete ctermfg=black ctermbg=red    guifg=#ffffff guibg=#ff0000
-    highlight SignifySignChange ctermfg=black ctermbg=yellow guifg=#000000 guibg=#ffff00
 <
 Note: For Unix people there is a small script in the repo, showcolors.bash,
 that shows all 256 colors available in the terminal. That makes picking the

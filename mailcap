@@ -1,0 +1,3 @@
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
+
+image/*; cp %s $(dirname %s)/xo-$(basename %s) \; xdg-open $(dirname %s)/xo-$(basename %s);

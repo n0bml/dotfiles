@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for f in `ls *.ogg`; do
+    vorbiscomment --raw --write --commentfile "${f%.*}.tags" "$f"
+    rm "${f%.*}.tags"
+done

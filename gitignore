@@ -1,4 +1,21 @@
-.fetchmailrc
-.msmtprc
-.netrwhist
+# ignore emacs collective files
+*-autoloads.el
+*.elc
+dir
+
+# MacOS files
+.DS_Store
+
+# python files
 __pycache__
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# local history for Visual Stduio Code
+.history/

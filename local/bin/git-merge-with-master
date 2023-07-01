@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+## get current branch
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+## confirmation prompt by default
+PROMPT=1
+
+for ARG in "$@"; do
+    case $ARG in
+        -y)
+            PROMPT=0
+            ;;
+        *)
+            BRANCH=$ARG
+            ;;
+    esac
+done
+
+if [[ $BRANCH == "master" ]]; then
+    echo ERROR: You must checkout the branch to be merged or supply branch as argument.
+    exit 1
+fi
+
+if [[ $PROMPT == 1 ]]; then
+    echo You are going to merge branch $BRANCH with remote master.
+    echo -n "If this is what you want to do please confirm with [Yes]: "
+    read -r RESPONSE
+    if [[ "X$RESPONSE" == "XYes" ]]; then
+        echo "Exiting due to lack of 'Yes' response."
+        exit
+    fi
+fi
+
+## pull latest master
+git checkout master
+git fetch --prune
+git merge --ff-only origin/master
+
+## rebase branch against master and push back to origin
+git rebase master $BRANCH
+git push --force-with-lease origin $BRANCH
+
+## merge branch onto master and push
+git checkout master
+git merge --no-ff $BRANCH
+
+## push new master
+git push origin master
+
+echo
+echo Branch successfully merged and pushed.
+echo
+echo You should now cleanup your branch if you no longer need it using:
+echo
+echo git branch -d $BRANCH
+echo git push origin :$BRANCH
+echo
+echo "And don't forget to close any issues this PR has addressed."
+echo

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for f in `ls *.flac`; do
+    metaflac --export-tags-to="${f%.*}.tags" "$f"
+    sed -i -e 's/^\([a-zA-Z0-9_]\+\)=/\U\1=/' "${f%.*}.tags"
+done

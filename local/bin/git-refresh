@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROG=$(basename "$0")
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+NEED_TO_STASH=$(git status --porcelain --untracked-files=no)
+
+if [[ "$BRANCH" == "master" ]]; then
+    git fetch -p
+    if git rev-parse '@{u}' >/dev/null 2>&1; then
+        if [[ $NEED_TO_STASH ]]; then
+            git stash save "stashed by $PROG (on branch $BRANCH)"
+            git fetch --prune
+            git pull --ff-only
+            git stash pop --index
+        else
+            git pull --ff-only
+        fi
+    fi
+    exit 0
+else
+    if [[ $NEED_TO_STASH ]]; then
+        git stash save "stashed by $PROG (on branch $BRANCH)"
+    fi
+    git checkout master
+    git fetch --prune
+    git pull --ff-only
+    git checkout "$BRANCH"
+
+    if [[ $(git rebase master) ]]; then
+        if [[ $NEED_TO_STASH ]]; then
+            git stash pop
+        fi
+    else
+        echo git rebase failed
+        if [[ $NEED_TO_STASH ]]; then
+            echo "You have changes stashed by $PROG"
+            exit 1
+        fi
+    fi
+fi
+
+
+## Regardless of the branch you are on, this code:
+## - stashes changes, if any
+## - checks out master
+## - does a fast-forward merge
+## - checks out your branch (if it's not master)
+## - rebases onto master (if branch is not master)
+## - pops changes from stash, if any
