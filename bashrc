@@ -105,6 +105,10 @@ export LOCATION=+47.305464-122.215806/
 export LOCATION_NAME="Auburn, WA"
 export LOCATION_GRID="CN87vh"
 
+if [[ -d "${HOME}/.local/bin" ]]; then
+    PATH="${HOME}/.local/bin:${PATH}"
+fi
+
 # read a .local file if it exists
 if [[ -f "${HOME}/.bashrc.local" ]]; then
     source "${HOME}/.bashrc.local"
