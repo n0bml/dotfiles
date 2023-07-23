@@ -4,5 +4,5 @@ IFS=$'\n\t'
 
 find . -type d -exec chmod 770 {} \;
 find . -type f -exec chmod 660 {} \;
-chown -R brendan .
-chgrp -R brendan .
+chown -R "${USER}" .
+chgrp -R "$(id -gn)" .
